@@ -1,0 +1,88 @@
+/* sobre.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  body {
+    background: #eef2f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  .header {
+    background: #1a237e;
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  .header p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  .header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  .header nav a:hover,
+  .header nav a.active {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .about-section {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .about-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .about-content h2 {
+    color: #1a237e;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ffa500;
+    padding-bottom: 5px;
+  }
+  .about-content h3 {
+    margin-top: 20px;
+    color: #ff5722;
+  }
+  .about-content p {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  .about-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+  .about-content li {
+    margin-bottom: 8px;
+  }
+  .about-content a {
+    color: #1a237e;
+    text-decoration: underline;
+  }
+  .about-content a:hover {
+    color: #ff5722;
+    text-decoration: none;
+  }
+  footer {
+    background: #1a237e;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
