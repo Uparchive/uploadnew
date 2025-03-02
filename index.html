@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Upload Galaxy</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -15,11 +17,22 @@
         <a href="#" class="logo">Upload Galaxy</a>
         <ul class="nav-links">
           <li><a href="#upload-section">Upload</a></li>
-          <li><a href="#folder-section">Meus Arquivos</a></li>
+          <li><a href="#file-list-section">Meus Arquivos</a></li>
           <li><a href="Sobre/sobre.html">Sobre</a></li>
           <li><a href="#">Contato</a></li>
         </ul>
-        <button id="logout-button" class="action-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <button id="logout-button" class="upload-button">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+        <div class="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-links">
+          <a href="#upload-section">Upload</a>
+          <a href="#file-list-section">Meus Arquivos</a>
+          <a href="Sobre/sobre.html">Sobre</a>
+          <a href="#">Contato</a>
+        </div>
       </div>
     </nav>
   </header>
@@ -27,17 +40,17 @@
   <main>
     <!-- Seção Hero -->
     <section id="hero-section">
-      <div class="hero-content container">
+      <div class="hero-content">
         <h1>Armazene e Compartilhe Seus Arquivos com Facilidade</h1>
-        <p>Faça upload de seus arquivos e acesse-os a qualquer hora, em qualquer lugar.</p>
-        <a href="#upload-section" class="cta-button">Comece Agora</a>
+        <p>Faça upload de seus arquivos e acesse-os a qualquer hora, em qualquer lugar. Segurança e conveniência ao seu alcance.</p>
+        <a href="#upload-section" class="cta-button">Começar Agora</a>
       </div>
     </section>
 
     <!-- Seção de Login -->
     <section id="login-section" class="container">
       <h2>Login com Google</h2>
-      <button id="google-login-button" class="action-button">
+      <button id="google-login-button" class="upload-button">
         <i class="fab fa-google"></i> Fazer Login com Google
       </button>
     </section>
@@ -47,37 +60,82 @@
       <h2>Envie seus Arquivos</h2>
       <form id="upload-form" enctype="multipart/form-data">
         <div class="form-group">
-          <label for="file-input"><i class="fas fa-upload"></i> Selecione seus arquivos:</label>
+          <label for="file-input"><i class="fas fa-file-upload"></i> Selecione os arquivos:</label>
           <input type="file" id="file-input" name="files" multiple required>
         </div>
         <div id="rename-file-list" class="rename-file-list"></div>
-        <button type="submit" class="action-button">
-          <i class="fas fa-cloud-upload-alt"></i> Fazer Upload
-        </button>
+        <button type="submit" class="upload-button"><i class="fas fa-cloud-upload-alt"></i> Fazer Upload</button>
       </form>
       <div id="progress-container" class="progress-container" style="display: none;"></div>
     </section>
 
-    <!-- Seção de Arquivos (Pastas) -->
-    <section id="folder-section" class="container" style="display: none;">
-      <h2>Meus Arquivos</h2>
-      <div id="folder-list" class="folder-list">
-        <!-- Os arquivos serão listados aqui como pastas/cards -->
+    <!-- Seção de Arquivos -->
+    <section id="file-list-section" class="container">
+      <div class="file-list-header">
+        <h2>Seus Arquivos</h2>
+        <button id="toggle-file-list-button" class="toggle-button">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+      <div id="file-list-container">
+        <div class="storage-container">
+          <p class="storage-text"><strong>Calculando...</strong></p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 20%;"></div>
+          </div>
+        </div>
+        
+        <input type="text" id="search-input" placeholder="Pesquise por arquivos..." class="search-bar">
+        
+        <select id="sort-select" class="sort-select">
+          <option value="alphabetical">Ordem Alfabética (A-Z)</option>
+          <option value="alphabetical-desc">Ordem Alfabética (Z-A)</option>
+          <option value="newest">Mais Recentes Primeiro</option>
+          <option value="oldest">Mais Antigos Primeiro</option>
+          <option value="size-asc">Menor Tamanho Primeiro</option>
+          <option value="size-desc">Maior Tamanho Primeiro</option>
+        </select>
+
+        <div id="file-list-container">
+          <ul id="file-list">
+            <!-- Itens serão adicionados dinamicamente -->
+          </ul>
+        </div>
       </div>
     </section>
+
+    <!-- Modal para o Player de Vídeo -->
+    <section id="video-modal" class="video-modal" style="display: none;">
+      <div class="video-modal-content">
+        <span id="close-video-modal" class="close-button">&times;</span>
+        <div id="video-player-container">
+          <video id="video-player" class="video-js vjs-default-skin vjs-fluid" controls preload="auto">
+            <source src="seu_video.mp4" type="video/mp4">
+            Seu navegador não suporta este vídeo.
+          </video>
+        </div>
+      </div>
+    </section>                
+
+    <a href="#" id="back-to-top" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </a>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2025 Upload Galaxy. Todos os direitos reservados.</p>
+      <p>© 2024 - Upload Galaxy. Todos os direitos reservados.</p>
       <ul class="social-links">
         <li><a href="#"><i class="fab fa-facebook"></i></a></li>
         <li><a href="#"><i class="fab fa-twitter"></i></a></li>
         <li><a href="#"><i class="fab fa-instagram"></i></a></li>
       </ul>
     </div>
+    <div id="message-container" class="message-container"></div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+  <!-- Importante: use type="module" para habilitar as importações ES6 -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
