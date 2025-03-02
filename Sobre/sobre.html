@@ -1,74 +1,400 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre - Upload Galaxy</title>
-  <!-- Link para o CSS externo -->
-  <link rel="stylesheet" href="sobre.css">
-  <!-- Fontes do Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - CloudDrive</title>
+    
+    <!-- Fontes e ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        :root {
+            /* Colors */
+            --primary-color: #4285f4;
+            --primary-dark: #3367d6;
+            --primary-light: #6ba3ff;
+            --accent-color: #fbbc05;
+            --success-color: #34a853;
+            --danger-color: #ea4335;
+            --warning-color: #fbbc05;
+            --info-color: #4285f4;
+            
+            /* Neutral Colors */
+            --dark: #202124;
+            --medium-dark: #5f6368;
+            --medium: #9aa0a6;
+            --light-gray: #e8eaed;
+            --lighter-gray: #f1f3f4;
+            --white: #ffffff;
+            
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 2.5rem;
+            
+            /* Border Radius */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: var(--lighter-gray);
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: var(--spacing-xl) var(--spacing-md);
+            text-align: center;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .back-link {
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .back-link i {
+            margin-right: var(--spacing-xs);
+        }
+        
+        .back-link:hover {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .subsection-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .card p {
+            margin-bottom: var(--spacing-md);
+            color: var(--medium-dark);
+        }
+        
+        .card p strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .card ul {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-xl);
+        }
+        
+        .card li {
+            margin-bottom: var(--spacing-sm);
+            color: var(--medium-dark);
+        }
+        
+        .card li strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            padding: var(--spacing-md);
+            background-color: var(--lighter-gray);
+            border-radius: var(--border-radius-md);
+        }
+        
+        .feature-icon {
+            margin-right: var(--spacing-sm);
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            padding-top: 3px;
+        }
+        
+        .feature-content h4 {
+            margin-bottom: var(--spacing-xs);
+            color: var(--dark);
+        }
+        
+        .feature-content p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            margin-top: var(--spacing-md);
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.25s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+            color: var(--white);
+        }
+        
+        .footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: var(--spacing-lg) var(--spacing-md);
+            text-align: center;
+        }
+        
+        .footer p {
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-top: var(--spacing-md);
+        }
+        
+        .footer-links li {
+            margin: 0 var(--spacing-sm);
+        }
+        
+        .footer-links a {
+            color: var(--light-gray);
+            font-size: 1.2rem;
+            transition: color 0.25s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.3rem;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Cabeçalho -->
-  <header class="header">
-    <h1>Upload Galaxy</h1>
-    <p>Um espaço seguro e independente para seu armazenamento digital.</p>
-    <nav>
-      <a href="../index.html">Início</a>
-      <a href="../embed.html">Embed</a>
-      <a href="sobre.html" class="active">Sobre</a>
-    </nav>
-  </header>
-
-  <!-- Seção Principal -->
-  <main class="about-section">
-    <section class="about-content">
-      <h2>Sobre o Upload Galaxy</h2>
-      <p>
-        Bem-vindo ao <strong>Upload Galaxy</strong>, um projeto independente criado para transformar a forma como você armazena e compartilha arquivos online. Este site nasceu da visão de um desenvolvedor apaixonado pela liberdade digital e pelo acesso seguro a informações. Em um mundo onde as empresas muitas vezes limitam o espaço de armazenamento ou cobram taxas altas, o Upload Galaxy surgiu como uma alternativa acessível e amigável, criada para ser usada por qualquer pessoa.
-      </p>
-
-      <h3>Nossa História</h3>
-      <p>
-        A ideia do Upload Galaxy começou como um desejo simples: oferecer um espaço seguro e sem as restrições que encontramos em tantas outras plataformas. Com um espírito inovador e a vontade de simplificar o armazenamento digital, o Upload Galaxy foi projetado para facilitar a vida de quem quer guardar suas memórias, documentos e projetos importantes, tudo em um só lugar.
-      </p>
-
-      <h3>Nossa Missão</h3>
-      <p>
-        O Upload Galaxy tem uma missão clara: permitir que você compartilhe suas ideias, memórias e projetos sem preocupações. Trabalhamos para criar um ambiente digital seguro, onde cada usuário tem o controle dos seus próprios arquivos, podendo acessá-los de onde quiser e a qualquer momento.
-      </p>
-
-      <h3>Nossos Valores</h3>
-      <ul>
-        <li><strong>Liberdade Digital:</strong> Acreditamos que o armazenamento de dados deve ser acessível a todos.</li>
-        <li><strong>Simplicidade e Eficiência:</strong> Nossa interface torna o upload, download e compartilhamento o mais simples possível.</li>
-        <li><strong>Segurança:</strong> Mantemos um foco constante em proteger seus arquivos contra acessos não autorizados.</li>
-      </ul>
-
-      <h3>Por que Escolher o Upload Galaxy?</h3>
-      <p>
-        <strong>Independência e Flexibilidade:</strong> Por ser um projeto independente, não estamos presos a interesses comerciais, permitindo maior flexibilidade e uma experiência mais transparente.
-      </p>
-      <p>
-        <strong>Foco no Usuário:</strong> Todo o design e funcionalidades foram pensados para tornar o armazenamento digital intuitivo e acessível.
-      </p>
-      <p>
-        <strong>Gratuito e Sem Complicações:</strong> Nossa plataforma oferece até 500 GB por usuário, sem taxas ou complicações.
-      </p>
-
-      <h3>Nossa Visão para o Futuro</h3>
-      <p>
-        O Upload Galaxy é apenas o começo de uma jornada. Pretendemos expandir e melhorar continuamente nossas ferramentas, trazendo cada vez mais funcionalidades para ajudar pessoas e comunidades a gerenciar seus arquivos de forma eficaz.
-      </p>
-
-      <h3>Entre em Contato</h3>
-      <p>
-        Você tem alguma sugestão ou quer compartilhar sua experiência? Adoramos ouvir o feedback dos nossos usuários! Sinta-se à vontade para entrar em contato através da seção de <a href="contact.html">Contato</a>.
-      </p>
-    </section>
-  </main>
+    <header class="header">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao CloudDrive
+        </a>
+        <div class="header-content">
+            <h1>CloudDrive</h1>
+            <p>Seu espaço seguro e eficiente para armazenamento em nuvem</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <h2 class="section-title">Sobre o CloudDrive</h2>
+            <p>
+                Bem-vindo ao <strong>CloudDrive</strong>, uma plataforma moderna de armazenamento em nuvem projetada para simplificar a forma como você gerencia seus arquivos digitais. Oferecemos uma experiência intuitiva e segura para upload, organização e compartilhamento de todos os seus documentos importantes, fotos, vídeos e muito mais.
+            </p>
+            
+            <h3 class="subsection-title">Nossa Missão</h3>
+            <p>
+                No CloudDrive, acreditamos que o armazenamento de arquivos deve ser simples, seguro e acessível para todos. Nossa missão é proporcionar uma plataforma confiável onde você possa guardar suas memórias e documentos importantes com tranquilidade, sabendo que eles estarão disponíveis quando e onde você precisar.
+            </p>
+            
+            <h3 class="subsection-title">Recursos Principais</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Upload Simplificado</h4>
+                        <p>Arraste e solte seus arquivos para fazer upload rapidamente, com suporte para múltiplos arquivos.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Armazenamento Seguro</h4>
+                        <p>Seus arquivos são armazenados com segurança usando tecnologias modernas de criptografia.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Compartilhamento Fácil</h4>
+                        <p>Compartilhe seus arquivos com um simples link ou incorpore vídeos em seus sites.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Player de Vídeo Integrado</h4>
+                        <p>Assista aos seus vídeos diretamente na plataforma com nosso player avançado.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Responsivo em Todos Dispositivos</h4>
+                        <p>Acesse seus arquivos de qualquer dispositivo, com uma interface adaptada para desktop e mobile.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>Gerenciamento Eficiente</h4>
+                        <p>Organize, pesquise e encontre seus arquivos rapidamente com nossas ferramentas intuitivas.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="subsection-title">Nossos Valores</h3>
+            <ul>
+                <li><strong>Simplicidade:</strong> Acreditamos que a tecnologia deve simplificar, não complicar. Nosso design é intuitivo e fácil de usar.</li>
+                <li><strong>Segurança:</strong> A proteção dos seus dados é nossa prioridade. Implementamos medidas robustas de segurança para proteger seus arquivos.</li>
+                <li><strong>Acessibilidade:</strong> Desenvolvemos nossa plataforma para ser acessível a todos, independentemente do nível de conhecimento técnico.</li>
+                <li><strong>Transparência:</strong> Somos claros sobre como funcionamos e como seus dados são tratados.</li>
+            </ul>
+            
+            <h3 class="subsection-title">Planos e Capacidade</h3>
+            <p>
+                O CloudDrive oferece generosos 500GB de armazenamento gratuito para todos os usuários. Este espaço é mais que suficiente para guardar milhares de fotos, documentos, e vários vídeos em alta resolução. Nosso objetivo é garantir que você tenha todo o espaço necessário sem preocupações ou limitações excessivas.
+            </p>
+            
+            <h3 class="subsection-title">Entre em Contato</h3>
+            <p>
+                Tem dúvidas, sugestões ou comentários? Adoraríamos ouvir de você! Entre em contato através da nossa página de contato ou envie um e-mail diretamente para nossa equipe de suporte.
+            </p>
+            
+            <a href="index.html" class="cta-button">Começar a Usar o CloudDrive</a>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>© 2024 CloudDrive. Todos os direitos reservados.</p>
+        <p>Armazenamento em nuvem simples, seguro e eficiente.</p>
+        
+        <ul class="footer-links">
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-github"></i></a></li>
+        </ul>
+    </footer>
 </body>
 </html>

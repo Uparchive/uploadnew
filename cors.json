@@ -1,20 +1,9 @@
 [
-  {
-    "origin": [
-      "https://uparchive.github.io",
-      "https://seudominio.com"
-    ],
-    "method": [
-      "GET",
-      "HEAD",
-      "PUT",
-      "POST",
-      "DELETE"
-    ],
-    "maxAgeSeconds": 3600,
-    "responseHeader": [
-      "Content-Type",
-      "Content-Disposition"
-    ]
-  }
-]
+    {
+      "origin": ["https://uparchive.github.io"],
+      "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+      "maxAgeSeconds": 3600,
+      "responseHeader": ["Content-Type", "Content-Disposition"]
+    }
+  ]
+  

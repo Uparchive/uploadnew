@@ -1,141 +1,278 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Upload Galaxy</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive</title>
+    
+    <!-- Fontes e ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="container">
-        <a href="#" class="logo">Upload Galaxy</a>
-        <ul class="nav-links">
-          <li><a href="#upload-section">Upload</a></li>
-          <li><a href="#file-list-section">Meus Arquivos</a></li>
-          <li><a href="Sobre/sobre.html">Sobre</a></li>
-          <li><a href="#">Contato</a></li>
-        </ul>
-        <button id="logout-button" class="upload-button">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-        <div class="menu-toggle">
-          <i class="fas fa-bars"></i>
-        </div>
-        <div class="mobile-links">
-          <a href="#upload-section">Upload</a>
-          <a href="#file-list-section">Meus Arquivos</a>
-          <a href="Sobre/sobre.html">Sobre</a>
-          <a href="#">Contato</a>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <!-- Seção Hero -->
-    <section id="hero-section">
-      <div class="hero-content">
-        <h1>Armazene e Compartilhe Seus Arquivos com Facilidade</h1>
-        <p>Faça upload de seus arquivos e acesse-os a qualquer hora, em qualquer lugar. Segurança e conveniência ao seu alcance.</p>
-        <a href="#upload-section" class="cta-button">Começar Agora</a>
-      </div>
-    </section>
-
-    <!-- Seção de Login -->
-    <section id="login-section" class="container">
-      <h2>Login com Google</h2>
-      <button id="google-login-button" class="upload-button">
-        <i class="fab fa-google"></i> Fazer Login com Google
-      </button>
-    </section>
-
-    <!-- Seção de Upload -->
-    <section id="upload-section" class="container" style="display: none;">
-      <h2>Envie seus Arquivos</h2>
-      <form id="upload-form" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="file-input"><i class="fas fa-file-upload"></i> Selecione os arquivos:</label>
-          <input type="file" id="file-input" name="files" multiple required>
-        </div>
-        <div id="rename-file-list" class="rename-file-list"></div>
-        <button type="submit" class="upload-button"><i class="fas fa-cloud-upload-alt"></i> Fazer Upload</button>
-      </form>
-      <div id="progress-container" class="progress-container" style="display: none;"></div>
-    </section>
-
-    <!-- Seção de Arquivos -->
-    <section id="file-list-section" class="container">
-      <div class="file-list-header">
-        <h2>Seus Arquivos</h2>
-        <button id="toggle-file-list-button" class="toggle-button">
-          <i class="fas fa-chevron-down"></i>
-        </button>
-      </div>
-      <div id="file-list-container">
-        <div class="storage-container">
-          <p class="storage-text"><strong>Calculando...</strong></p>
-          <div class="progress-bar-container">
-            <div class="progress-bar" style="width: 20%;"></div>
-          </div>
-        </div>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-cloud"></i>
+                    <span>CloudDrive</span>
+                </div>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item active" data-section="upload-section">
+                            <a href="#"><i class="fas fa-upload"></i> <span>Upload</span></a>
+                        </li>
+                        <li class="nav-item" data-section="file-list-section">
+                            <a href="#"><i class="fas fa-folder"></i> <span>Meus Arquivos</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="sobre.html"><i class="fas fa-info-circle"></i> <span>Sobre</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#"><i class="fas fa-envelope"></i> <span>Contato</span></a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="storage-info">
+                    <p class="storage-text">Armazenamento</p>
+                    <div class="storage-progress">
+                        <div class="progress-bar" id="storage-bar" style="width: 0%;"></div>
+                    </div>
+                    <p class="storage-details" id="storage-details">Calculando...</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button id="logout-button" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> <span>Sair</span>
+                </button>
+            </div>
+        </aside>
         
-        <input type="text" id="search-input" placeholder="Pesquise por arquivos..." class="search-bar">
-        
-        <select id="sort-select" class="sort-select">
-          <option value="alphabetical">Ordem Alfabética (A-Z)</option>
-          <option value="alphabetical-desc">Ordem Alfabética (Z-A)</option>
-          <option value="newest">Mais Recentes Primeiro</option>
-          <option value="oldest">Mais Antigos Primeiro</option>
-          <option value="size-asc">Menor Tamanho Primeiro</option>
-          <option value="size-desc">Maior Tamanho Primeiro</option>
-        </select>
-
-        <div id="file-list-container">
-          <ul id="file-list">
-            <!-- Itens serão adicionados dinamicamente -->
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modal para o Player de Vídeo -->
-    <section id="video-modal" class="video-modal" style="display: none;">
-      <div class="video-modal-content">
-        <span id="close-video-modal" class="close-button">&times;</span>
-        <div id="video-player-container">
-          <video id="video-player" class="video-js vjs-default-skin vjs-fluid" controls preload="auto">
-            <source src="seu_video.mp4" type="video/mp4">
-            Seu navegador não suporta este vídeo.
-          </video>
-        </div>
-      </div>
-    </section>                
-
-    <a href="#" id="back-to-top" class="back-to-top">
-      <i class="fas fa-arrow-up"></i>
-    </a>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>© 2024 - Upload Galaxy. Todos os direitos reservados.</p>
-      <ul class="social-links">
-        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-      </ul>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Pesquisar arquivos..." class="search-input">
+                </div>
+                
+                <div class="user-profile" id="user-profile">
+                    <span class="user-name" id="user-name">Visitante</span>
+                    <div class="profile-avatar" id="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Welcome Screen (shown when not logged in) -->
+            <section id="welcome-screen" class="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-image">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h1>Bem-vindo ao CloudDrive</h1>
+                    <p>O serviço de armazenamento em nuvem que facilita sua vida digital.</p>
+                    <button id="login-button" class="btn btn-primary">
+                        <i class="fab fa-google"></i> Login com Google
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Upload Section -->
+            <section id="upload-section" class="content-section">
+                <div class="section-header">
+                    <h2>Faça Upload de Arquivos</h2>
+                    <p>Arraste arquivos ou selecione para upload</p>
+                </div>
+                
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-dropzone" id="upload-dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Arraste seus arquivos aqui ou</p>
+                        <button id="select-files-btn" class="btn btn-secondary">Selecionar Arquivos</button>
+                        <input type="file" id="file-input" multiple style="display: none;">
+                    </div>
+                </div>
+                
+                <div id="selected-files" class="selected-files"></div>
+                
+                <div class="upload-actions">
+                    <button id="start-upload-btn" class="btn btn-primary" disabled>
+                        <i class="fas fa-upload"></i> Iniciar Upload
+                    </button>
+                </div>
+                
+                <div id="upload-progress" class="upload-progress" style="display: none;"></div>
+            </section>
+            
+            <!-- Files Section -->
+            <section id="file-list-section" class="content-section">
+                <div class="section-header">
+                    <h2>Meus Arquivos</h2>
+                    <div class="view-controls">
+                        <button id="grid-view-btn" class="view-btn active"><i class="fas fa-th-large"></i></button>
+                        <button id="list-view-btn" class="view-btn"><i class="fas fa-list"></i></button>
+                        
+                        <select id="sort-select" class="sort-select">
+                            <option value="newest">Mais Recentes</option>
+                            <option value="oldest">Mais Antigos</option>
+                            <option value="alphabetical">Nome (A-Z)</option>
+                            <option value="alphabetical-desc">Nome (Z-A)</option>
+                            <option value="size-desc">Tamanho (Maior)</option>
+                            <option value="size-asc">Tamanho (Menor)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="file-list-container">
+                    <div id="file-grid" class="file-grid">
+                        <!-- Files will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div id="empty-state" class="empty-state">
+                    <i class="fas fa-folder-open"></i>
+                    <p>Nenhum arquivo encontrado</p>
+                </div>
+            </section>
+        </main>
     </div>
-    <div id="message-container" class="message-container"></div>
-  </footer>
-
-  <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
-  <!-- Importante: use type="module" para habilitar as importações ES6 -->
-  <script type="module" src="script.js"></script>
+    
+    <!-- Video Player Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="video-title">Reproduzindo Vídeo</h3>
+                <button id="close-video-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="video-player-container">
+                    <video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"></video>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- File Actions Modal -->
+    <div id="file-actions-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="file-actions-title">Opções do Arquivo</h3>
+                <button id="close-file-actions-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-actions-list">
+                    <button class="file-action-btn" id="preview-file-btn">
+                        <i class="fas fa-eye"></i> Visualizar
+                    </button>
+                    <button class="file-action-btn" id="download-file-btn">
+                        <i class="fas fa-download"></i> Baixar
+                    </button>
+                    <button class="file-action-btn" id="share-file-btn">
+                        <i class="fas fa-share-alt"></i> Compartilhar
+                    </button>
+                    <button class="file-action-btn" id="rename-file-btn">
+                        <i class="fas fa-edit"></i> Renomear
+                    </button>
+                    <button class="file-action-btn" id="delete-file-btn">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Compartilhar Arquivo</h3>
+                <button id="close-share-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Link para compartilhamento:</p>
+                <div class="share-link-container">
+                    <input type="text" id="share-link" class="share-link" readonly>
+                    <button id="copy-link-btn" class="btn btn-secondary">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                
+                <div class="embed-options" id="embed-options-container">
+                    <h4>Código de incorporação:</h4>
+                    <textarea id="embed-code" class="embed-code" readonly></textarea>
+                    <button id="copy-embed-btn" class="btn btn-secondary">
+                        <i class="fas fa-copy"></i> Copiar código
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Rename Modal -->
+    <div id="rename-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Renomear Arquivo</h3>
+                <button id="close-rename-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="rename-form">
+                    <div class="form-group">
+                        <label for="new-filename">Novo nome:</label>
+                        <input type="text" id="new-filename" class="form-input">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" id="cancel-rename" class="btn btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar Exclusão</h3>
+                <button id="close-delete-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja excluir o arquivo <span id="delete-filename">arquivo</span>?</p>
+                <p class="warning-text">Esta ação não pode ser desfeita.</p>
+                <div class="modal-actions">
+                    <button id="cancel-delete" class="btn btn-secondary">Cancelar</button>
+                    <button id="confirm-delete" class="btn btn-danger">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

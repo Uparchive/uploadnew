@@ -1,191 +1,284 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Metadados -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeo Incorporado</title>
-
-    <!-- Estilos necessários -->
+    <title>CloudDrive - Visualização de Vídeo</title>
+    
+    <!-- Estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://vjs.zencdn.net/7.21.1/video-js.css" rel="stylesheet">
-    <!-- Font Awesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <style>
-        /* Estilos personalizados */
-        /* Centralizar o botão de play grande do Video.js */
+        :root {
+            --primary-color: #4285f4;
+            --primary-dark: #3367d6;
+            --dark: #202124;
+            --medium-dark: #5f6368;
+            --light-gray: #e8eaed;
+            --white: #ffffff;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: var(--font-family);
+            background-color: var(--dark);
+        }
+        
+        .player-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .video-js {
+            width: 100%;
+            height: 0;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        
         .vjs-big-play-button {
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
         }
-        /* Estilos para os botões personalizados */
-        .vjs-rewind-button .fas,
-        .vjs-forward-button .fas,
-        .vjs-download-button .fas {
-            font-size: 18px;
-            line-height: 1.5;
-            vertical-align: middle;
-            color: white;
+        
+        .vjs-control-bar {
+            background-color: rgba(0, 0, 0, 0.7) !important;
         }
-        .vjs-rewind-button,
-        .vjs-forward-button,
-        .vjs-download-button {
-            width: 36px;
-            height: 36px;
-            padding: 0;
+        
+        .custom-button.vjs-control {
+            width: 3em;
         }
-        .vjs-rewind-button:hover .fas,
-        .vjs-forward-button:hover .fas,
-        .vjs-download-button:hover .fas {
-            color: #ccc;
+        
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 80%;
+            display: none;
         }
-        /* Estilos para o contêiner do player */
-        #video-player-container {
-            width: 100vw;
-            height: 100vh;
+        
+        .error-message h2 {
+            margin-bottom: 10px;
+            color: #ff5252;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 14px;
+            pointer-events: none;
+            z-index: 10;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background-color: #000; /* Fundo preto para melhor contraste */
         }
-        /* Estilos para o player de vídeo */
-        #video-player {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
+        
+        .watermark i {
+            margin-right: 5px;
+            font-size: 16px;
+            color: var(--primary-color);
         }
-        /* Remover margens e preenchimentos */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; /* Evita barras de rolagem */
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .loading i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Contêiner do Player de Vídeo -->
-    <div id="video-player-container">
-        <video id="video-player" class="video-js vjs-default-skin" controls preload="auto"></video>
+    <div class="player-container">
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>Carregando vídeo...</p>
+        </div>
+        
+        <video id="video-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto">
+            <p class="vjs-no-js">
+                Para visualizar este vídeo, ative o JavaScript e considere atualizar para um navegador que suporte vídeo HTML5.
+            </p>
+        </video>
+        
+        <div class="watermark">
+            <i class="fas fa-cloud"></i> CloudDrive
+        </div>
+        
+        <div id="error-message" class="error-message">
+            <h2>Erro ao carregar o vídeo</h2>
+            <p>Não foi possível carregar o vídeo solicitado. O link pode estar inválido ou o vídeo não está mais disponível.</p>
+        </div>
     </div>
-
-    <!-- Scripts necessários -->
+    
     <script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>
-
-    <!-- Script para inicializar o player -->
     <script>
-        // Função para obter o parâmetro 'videoUrl' da query string
+        // Função para obter parâmetros da URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-
-        // Obter o URL do vídeo da query string
+        
+        // Obter URL do vídeo
         const videoUrl = getQueryParam('videoUrl');
-
-        // Verificar se o videoUrl está presente, senão exibe mensagem e encerra
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('error-message');
+        
+        // Verificar se o parâmetro videoUrl está presente
         if (!videoUrl) {
-            alert('URL do vídeo não fornecida.');
-            // Opcional: você pode definir um vídeo padrão aqui, se desejar:
-            // videoUrl = 'caminho/do/video_padrao.mp4';
-        }
-
-        // Função para obter o tipo MIME do vídeo
-        function getMimeType(url) {
-            const extension = url.split('.').pop().toLowerCase();
-            switch (extension) {
-                case 'mp4':
-                    return 'video/mp4';
-                case 'mkv':
-                    return 'video/x-matroska';
-                case 'webm':
-                    return 'video/webm';
-                default:
-                    return 'video/mp4';
+            loading.style.display = 'none';
+            errorMessage.style.display = 'block';
+        } else {
+            // Função para determinar o tipo MIME com base na extensão do arquivo
+            function getMimeType(url) {
+                const extension = url.split('.').pop().toLowerCase();
+                switch (extension) {
+                    case 'mp4':
+                        return 'video/mp4';
+                    case 'webm':
+                        return 'video/webm';
+                    case 'mkv':
+                        return 'video/x-matroska';
+                    case 'avi':
+                        return 'video/x-msvideo';
+                    case 'mov':
+                        return 'video/quicktime';
+                    default:
+                        return 'video/mp4'; // Tipo padrão
+                }
             }
-        }
-
-        // Inicializar o player
-        const videoPlayer = videojs('video-player', {
-            autoplay: false,
-            controls: true,
-            responsive: true,
-            fluid: true,
-            sources: [{ src: videoUrl, type: getMimeType(videoUrl) }]
-        }, function() {
-            // Callback após o player estar pronto
-            addCustomButtons();
-        });
-
-        // Função para adicionar botões personalizados ao player
-        function addCustomButtons() {
-            // Botão de Retroceder 10 Segundos
-            const rewindButton = videojs.extend(videojs.getComponent('Button'), {
-                constructor: function() {
-                    videojs.getComponent('Button').apply(this, arguments);
-                    this.controlText('Retroceder 10 segundos');
-                    this.addClass('vjs-control');
-                    this.addClass('vjs-button');
-                    this.addClass('vjs-rewind-button');
-                    this.el().innerHTML = '<i class="fas fa-undo"></i>';
-                },
-                handleClick: function() {
-                    const currentTime = videoPlayer.currentTime();
-                    videoPlayer.currentTime(Math.max(0, currentTime - 10));
-                }
+            
+            // Inicializar o player de vídeo
+            const player = videojs('video-player', {
+                autoplay: false,
+                controls: true,
+                responsive: true,
+                fluid: true,
+                sources: [{
+                    src: videoUrl,
+                    type: getMimeType(videoUrl)
+                }]
             });
-            videojs.registerComponent('RewindButton', rewindButton);
-            videoPlayer.getChild('controlBar').addChild('RewindButton', {}, 0);
-
-            // Botão de Avançar 10 Segundos
-            const forwardButton = videojs.extend(videojs.getComponent('Button'), {
-                constructor: function() {
-                    videojs.getComponent('Button').apply(this, arguments);
-                    this.controlText('Avançar 10 segundos');
-                    this.addClass('vjs-control');
-                    this.addClass('vjs-button');
-                    this.addClass('vjs-forward-button');
-                    this.el().innerHTML = '<i class="fas fa-redo"></i>';
-                },
-                handleClick: function() {
-                    const currentTime = videoPlayer.currentTime();
-                    const duration = videoPlayer.duration();
-                    videoPlayer.currentTime(Math.min(duration, currentTime + 10));
-                }
+            
+            // Quando o player estiver pronto
+            player.ready(function() {
+                loading.style.display = 'none';
+                this.on('error', function() {
+                    errorMessage.style.display = 'block';
+                    this.dispose();
+                });
+                
+                // Adicionar botões personalizados
+                addCustomButtons(this);
             });
-            videojs.registerComponent('ForwardButton', forwardButton);
-            videoPlayer.getChild('controlBar').addChild('ForwardButton', {}, 2);
-
-            // Botão de Download
-            const downloadButton = videojs.extend(videojs.getComponent('Button'), {
-                constructor: function() {
-                    videojs.getComponent('Button').apply(this, arguments);
-                    this.controlText('Download Vídeo');
-                    this.addClass('vjs-control');
-                    this.addClass('vjs-button');
-                    this.addClass('vjs-download-button');
-                    this.el().innerHTML = '<i class="fas fa-download"></i>';
-                },
-                handleClick: function() {
-                    downloadCurrentVideo();
-                }
-            });
-            videojs.registerComponent('DownloadButton', downloadButton);
-            // Adicionar o botão de download antes do botão de tela cheia
-            videoPlayer.getChild('controlBar').addChild('DownloadButton', {}, videoPlayer.getChild('controlBar').children().length - 1);
-        }
-
-        // Função para baixar o vídeo atual
-        function downloadCurrentVideo() {
-            const videoName = videoUrl.substring(videoUrl.lastIndexOf('/') + 1).split('?')[0];
-            const a = document.createElement('a');
-            a.href = videoUrl;
-            a.download = videoName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            
+            // Função para adicionar botões personalizados ao player
+            function addCustomButtons(player) {
+                // Evitar duplicar botões se já existirem
+                if (player.getChild('controlBar').getChild('RewindButton')) return;
+                
+                // Botão de retroceder 10 segundos
+                const RewindButton = videojs.getComponent('Button');
+                const rewindButton = videojs.extend(RewindButton, {
+                    constructor: function() {
+                        RewindButton.apply(this, arguments);
+                        this.controlText('Retroceder 10 segundos');
+                        this.addClass('custom-button vjs-rewind-button');
+                    },
+                    handleClick: function() {
+                        const currentTime = player.currentTime();
+                        player.currentTime(Math.max(0, currentTime - 10));
+                    },
+                    buildCSSClass: function() {
+                        return 'vjs-control vjs-button fas fa-undo';
+                    }
+                });
+                
+                videojs.registerComponent('RewindButton', rewindButton);
+                player.getChild('controlBar').addChild('RewindButton', {}, 0);
+                
+                // Botão de avançar 10 segundos
+                const ForwardButton = videojs.getComponent('Button');
+                const forwardButton = videojs.extend(ForwardButton, {
+                    constructor: function() {
+                        ForwardButton.apply(this, arguments);
+                        this.controlText('Avançar 10 segundos');
+                        this.addClass('custom-button vjs-forward-button');
+                    },
+                    handleClick: function() {
+                        const currentTime = player.currentTime();
+                        const duration = player.duration();
+                        player.currentTime(Math.min(duration, currentTime + 10));
+                    },
+                    buildCSSClass: function() {
+                        return 'vjs-control vjs-button fas fa-redo';
+                    }
+                });
+                
+                videojs.registerComponent('ForwardButton', forwardButton);
+                player.getChild('controlBar').addChild('ForwardButton', {}, 2);
+                
+                // Botão de download
+                const DownloadButton = videojs.getComponent('Button');
+                const downloadButton = videojs.extend(DownloadButton, {
+                    constructor: function() {
+                        DownloadButton.apply(this, arguments);
+                        this.controlText('Download Vídeo');
+                        this.addClass('custom-button vjs-download-button');
+                    },
+                    handleClick: function() {
+                        const a = document.createElement('a');
+                        a.href = videoUrl;
+                        a.download = videoUrl.substring(videoUrl.lastIndexOf('/') + 1).split('?')[0];
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    },
+                    buildCSSClass: function() {
+                        return 'vjs-control vjs-button fas fa-download';
+                    }
+                });
+                
+                videojs.registerComponent('DownloadButton', downloadButton);
+                player.getChild('controlBar').addChild('DownloadButton', {}, player.controlBar.children().length - 1);
+            }
         }
     </script>
 </body>
