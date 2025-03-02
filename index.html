@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload Galaxy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container">
+        <a href="#" class="logo">Upload Galaxy</a>
+        <ul class="nav-links">
+          <li><a href="#upload-section">Upload</a></li>
+          <li><a href="#folder-section">Meus Arquivos</a></li>
+          <li><a href="Sobre/sobre.html">Sobre</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+        <button id="logout-button" class="action-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Seção Hero -->
+    <section id="hero-section">
+      <div class="hero-content container">
+        <h1>Armazene e Compartilhe Seus Arquivos com Facilidade</h1>
+        <p>Faça upload de seus arquivos e acesse-os a qualquer hora, em qualquer lugar.</p>
+        <a href="#upload-section" class="cta-button">Comece Agora</a>
+      </div>
+    </section>
+
+    <!-- Seção de Login -->
+    <section id="login-section" class="container">
+      <h2>Login com Google</h2>
+      <button id="google-login-button" class="action-button">
+        <i class="fab fa-google"></i> Fazer Login com Google
+      </button>
+    </section>
+
+    <!-- Seção de Upload -->
+    <section id="upload-section" class="container" style="display: none;">
+      <h2>Envie seus Arquivos</h2>
+      <form id="upload-form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="file-input"><i class="fas fa-upload"></i> Selecione seus arquivos:</label>
+          <input type="file" id="file-input" name="files" multiple required>
+        </div>
+        <div id="rename-file-list" class="rename-file-list"></div>
+        <button type="submit" class="action-button">
+          <i class="fas fa-cloud-upload-alt"></i> Fazer Upload
+        </button>
+      </form>
+      <div id="progress-container" class="progress-container" style="display: none;"></div>
+    </section>
+
+    <!-- Seção de Arquivos (Pastas) -->
+    <section id="folder-section" class="container" style="display: none;">
+      <h2>Meus Arquivos</h2>
+      <div id="folder-list" class="folder-list">
+        <!-- Os arquivos serão listados aqui como pastas/cards -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Upload Galaxy. Todos os direitos reservados.</p>
+      <ul class="social-links">
+        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
